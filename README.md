@@ -4,7 +4,7 @@
 -database named `tickets`
 -`issues` table in tickets
 
-**Also** add a coulumn for 'embeddings' in  `issues`
+**Also** add a column for 'embeddings' in  `issues`
 >>ALTER TABLE issues ADD COLUMN embedding float8[];
 
 
