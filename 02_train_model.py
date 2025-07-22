@@ -73,7 +73,7 @@ def main():
     joblib.dump(xgb_model, 'xgb_model.joblib')
 
     # Train SVC model
-    svc_model = SVC(C=0.1, class_weight='balanced', gamma='scale', kernel='linear')
+    svc_model = SVC(C=0.1, class_weight='balanced', gamma='scale', kernel='linear', probability=True)
     svc_model.fit(X_train, y_train)
     joblib.dump(svc_model, 'svc_model.joblib')
 
