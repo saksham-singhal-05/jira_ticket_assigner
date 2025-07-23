@@ -1,6 +1,6 @@
 # jira_ticket_assigner
 
-##ToDo: Add JIRA retrieval logic
+## ToDo: Add JIRA retrieval logic
 
 ## Prerequisites
 - database named `tickets`
