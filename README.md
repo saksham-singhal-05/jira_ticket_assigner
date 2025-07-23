@@ -1,5 +1,7 @@
 # jira_ticket_assigner
 
+##ToDo: Add JIRA retrieval logic
+
 ## Prerequisites
 - database named `tickets`
 - `issues` table in tickets
