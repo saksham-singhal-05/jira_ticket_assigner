@@ -1,4 +1,4 @@
-model_to_use: 0  # 0 = svc, 1 = rf, 2 = xgb
+model_to_use: 0 # 0 = svc, 1 = rf, 2 = xgb
 
 embedding_provider: 'transformers' 
 
