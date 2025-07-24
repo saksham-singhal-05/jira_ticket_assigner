@@ -11,5 +11,5 @@
 ## How to use:
 - Edit config.yaml to devices postgresql configurations
 - If you want to use OpenAi embeddings add OpenAi key and change the first line of config.yaml
-- Run daily training files once a day(setup files: 01_embed_new_tickets.py, 02_extract_train_data.py, 03_model_train.py)
-- run streamlit app for each ticket
+- Run daily training files once a day(setup files: 01_embed_new_tickets.pyand 02_train_model.py)
+- run streamlit app for each ticket/assignment to save in db
