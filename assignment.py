@@ -1,6 +1,8 @@
 import joblib
 import yaml
 import numpy as np
+import requests
+import os
 
 from sentence_transformers import SentenceTransformer
 
@@ -17,6 +19,10 @@ try:
     rf_model = joblib.load("rf_model.joblib")
     xgb_model = joblib.load("xgb_model.joblib")
     label_encoder = joblib.load("label_encoder.joblib")
+    
+    JIRA_URL = cfg.get("JIRA_SITE")
+    JIRA_EMAIL = cfg.get("EMAIL")
+    JIRA_API_TOKEN = os.getenv("JIRA_API_KEY")
 
     model_to_use = cfg.get("model_to_use", 0)  # 0: svc, 1: rf, 2: xgb
 
@@ -73,12 +79,39 @@ def get_top_developers(summary, description):
     preds = top_n_predictions(model, emb, label_encoder)
     return [label for label, _ in preds][:3]
 
+
+
 def retrieve_latest_jira_tickets():
     
-    return [
-        {"issue_id": "ISSUE-105", "summary": "Login failing after update", "description": "Legacy users experience error 500."},
-        {"issue_id": "ISSUE-104", "summary": "Dashboard crash", "description": "Graph widget causes full reload."}
-    ] #example answer
+    jql = 'updated >= -1d'
+    url = f"{JIRA_URL}/rest/api/3/search"
+    auth = (JIRA_EMAIL, JIRA_API_TOKEN)
+    headers = {"Accept": "application/json"}
+
+    all_tickets = []
+    start_at = 0
+    max_results = 50
+    while True:
+        params = {
+            "jql": jql,
+            "fields": "summary,description",
+            "maxResults": max_results,
+            "startAt": start_at,
+        }
+        response = requests.get(url, headers=headers, params=params, auth=auth)
+        data = response.json()
+        issues = data.get("issues", [])
+        for issue in issues:
+            all_tickets.append({
+                "issue_id": issue["key"],
+                "summary": issue["fields"].get("summary", ""),
+                "description": issue["fields"].get("description", ""),
+            })
+        if len(issues) < max_results:
+            break
+        start_at += max_results
+    return all_tickets
+
 
 import psycopg2
 
