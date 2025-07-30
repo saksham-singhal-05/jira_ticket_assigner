@@ -3,6 +3,7 @@ import yaml
 import numpy as np
 import requests
 import os
+from config import SEARCH_URL, JIRA_SITE, EMAIL 
 
 from sentence_transformers import SentenceTransformer
 
@@ -20,8 +21,8 @@ try:
     xgb_model = joblib.load("xgb_model.joblib")
     label_encoder = joblib.load("label_encoder.joblib")
     
-    JIRA_URL = cfg.get("JIRA_SITE")
-    JIRA_EMAIL = cfg.get("EMAIL")
+    JIRA_URL = JIRA_SITE
+    JIRA_EMAIL = EMAIL
     JIRA_API_TOKEN = os.getenv("JIRA_API_KEY")
 
     model_to_use = cfg.get("model_to_use", 0)  # 0: svc, 1: rf, 2: xgb
